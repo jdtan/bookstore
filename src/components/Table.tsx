@@ -37,7 +37,7 @@ const Table = () => {
         bookList.map((book) => (
             <div className={"table-row"} key={book.id} onClick={() => handleClick(book)}>
               <span className={"col col-name"}><span>Name </span>{book.name}</span>
-              <span className={"col col-price"}><span>Price </span>${book.price.toFixed(2)}</span>
+              <span className={"col col-price"}><span>Price </span>$ {book.price.toFixed(2)}</span>
               <span className={"col col-category"}><span>Category </span>{book.category}</span>
               <span className={"col col-delete"}>
                 <Delete bookID={book.id} handleClose={handleClose}/>

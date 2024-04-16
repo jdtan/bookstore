@@ -1,0 +1,100 @@
+.table-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.5em 1em;
+  text-align: center;
+  border-radius: 0.5em;
+  gap: 1%;
+}
+
+.table-header {
+  background: var(--grey-100-color);
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.table-row:not(.table-header) ~ .table-row::after {
+  content: "";
+  background: var(--grey-100-color);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  width: 80%;
+  margin: auto;
+}
+
+.table-row:not(.table-header):hover {
+  cursor: pointer;
+  background-color: #e9e9ed7d;
+}
+
+.col {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col span {
+  display: none;
+}
+
+.col-name,
+.col-category {
+  width: 35%;
+}
+
+.col-price,
+.col-delete {
+  width: 15%;
+}
+
+.empty-table {
+  font-size: 1.8rem;
+  text-align: center;
+  padding-top: 1.5em;
+  color: var(--grey-200-color);
+}
+
+.empty-table p {
+  font-weight: 500;
+  margin-bottom: 0.2em;
+}
+
+@media only screen and (max-width: 768px) {
+  .table-header {
+    display: none;
+  }
+
+  .table-row {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .table-row:not(.table-header) ~ .table-row::after {
+    display: none;
+  }
+  .table-row:nth-child(odd) {
+    background-color: #e9e9ed7d;
+  }
+  .col {
+    width: 100%;
+    padding: 0.2em 1em;
+    text-align: left;
+    display: flex;
+    overflow: hidden;
+  }
+  .col span {
+    display: inline-block;
+    min-width: 6.3em;
+    max-width: 40vw;
+    text-align: left;
+    font-weight: 500;
+  }
+  .col-delete {
+    justify-content: end;
+  }
+}

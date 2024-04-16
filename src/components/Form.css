@@ -1,0 +1,63 @@
+dialog {
+  z-index: 200;
+  margin: auto;
+  top: 15vh;
+  padding: 2.5em 2em;
+  width: 450px;
+  min-width: 300px;
+  max-width: 90vw;
+  border: none;
+  border-radius: 0.8em;
+  position: fixed;
+}
+
+.dialog-title {
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  text-align: center;
+  margin-bottom: 0.6em;
+}
+
+.dialog-background {
+  z-index: 100;
+  background-color: black;
+  opacity: 0.3;
+  min-height: 100vh;
+  min-width: 100vw;
+  left: 0;
+  top: 0;
+  position: fixed;
+}
+
+.dialog-row label {
+  width: calc(50% - 0.5em);
+}
+
+.dialog-row ~ .dialog-row label {
+  width: 100%;
+}
+
+.dialog-row {
+  width: 100%;
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1.3em;
+}
+
+label input,
+label textarea {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+@media only screen and (max-width: 480px) {
+  dialog {
+    padding: 2.5em 1em;
+  }
+}

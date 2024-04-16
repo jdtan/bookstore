@@ -1,0 +1,14 @@
+.primary-btn.plus {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6em;
+}
+
+@media only screen and (max-width: 576px) {
+  .primary-btn.plus {
+    width: 100%;
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+  }
+}
