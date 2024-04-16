@@ -1,28 +1,19 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Add from "./components/Add";
-import List from "./components/List";
+import Table from "./components/Table";
 
 function App() {
   return (
     <div className="App">
-      <Add/>
-      <List/>
-      {/*<header className="App-header">*/}
-      {/*  <img src={logo} className="App-logo" alt="logo" />*/}
-      {/*  <p>*/}
-      {/*    Edit <code>src/App.tsx</code> and save to reload.*/}
-      {/*  </p>*/}
-      {/*  <a*/}
-      {/*    className="App-link"*/}
-      {/*    href="https://reactjs.org"*/}
-      {/*    target="_blank"*/}
-      {/*    rel="noopener noreferrer"*/}
-      {/*  >*/}
-      {/*    Learn React*/}
-      {/*  </a>*/}
-      {/*</header>*/}
+      <div className={"app-container"}>
+        <h1 className={"app-title"}>Blazesoft Bookstore</h1>
+        <span className={"header-container"}>
+        <h1>List of Books</h1>
+        <Add/>
+      </span>
+        <Table/>
+      </div>
     </div>
   );
 }

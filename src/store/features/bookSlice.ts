@@ -32,6 +32,9 @@ export const BookSlice = createSlice({
       state.books.map((item): void => {
         if (item.id === action.payload.id) {
           item.name = action.payload.name;
+          item.price = action.payload.price;
+          item.category = action.payload.category;
+          item.description = action.payload.description;
         }
       });
     }

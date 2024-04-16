@@ -1,119 +1,138 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "../store/store";
-import { useDispatch } from "react-redux";
 import { addBook, Book, editBook } from "../store/features/bookSlice";
-import { PayloadAction } from "@reduxjs/toolkit";
+import "./Form.css";
 
 interface Props {
   type: string;
   visible: boolean;
-  data?: any;
+  data?: Book;
   handleClose: Function;
 }
 
 const Form = (props: Props) => {
-  // const name = useRef<string>("");
-  // const price = useRef<number>(0);
-  // const category = useRef<string>("");
-  // const description = useRef<string>("");
+  const [id, setId] = useState<number>(0);
   const [name, setName] = useState<string>(props.data ? props.data.name : "");
-  const [price, setPrice] = useState<number>(0);
-  const [category, setCategory] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-
-  // const [visible, setVisible] = useState<boolean>(props.visible);
+  const [price, setPrice] = useState<number>(props.data ? props.data.price : 0);
+  const [category, setCategory] = useState<string>(props.data ? props.data.category : "");
+  const [description, setDescription] = useState<string>(props.data ? props.data.description : "");
 
   const dispatch = useAppDispatch();
 
-  const [cnt, setCnt] = useState<number>(0);
-  // const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (props.data) {
+      setName(props.data.name);
+      setPrice(props.data.price);
+      setCategory(props.data.category);
+      setDescription(props.data.description);
+    }
+  }, [props?.data]);
+
+  useEffect(() => {
+    if (props.visible) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [props.visible]);
 
   const submitDisabled = (): boolean => {
-    // return !(name.current && price.current && category.current && description.current && description.current.length > 0);
     return !(name && price && category && description);
   };
 
-  return (
-    <div>
-      <dialog open={props.visible}>
-        <form className={"form"}>
-          <label>Name
-            <input
-              className={"input"}
-              value={name}
-              onChange={(e) => {
-                // name.current = e.target.value;
-                setName(e.target.value);
-              }}
-              required
-            />
-          </label>
-          <label>Price
-            <input
-              className={"input"}
-              type={"number"}
-              onChange={(e) => {
-                // price.current = e.target.valueAsNumber;
-                setPrice(e.target.valueAsNumber);
-              }}
-            />
-          </label>
-          <label>Category
-            <input
-              className={"input"}
-              onChange={(e) => {
-                // category.current = e.target.value;
-                setCategory(e.target.value);
-              }}
-              required
-            />
-          </label>
-          <label>Description
-            <textarea
-              className={"input"}
-              onChange={(e) => {
-                // description.current = e.target.value;
-                setDescription(e.target.value);
-              }}
-              required
-            />
-          </label>
-          <button type="button" disabled={submitDisabled()} onClick={() => {
-            if (props.type === "Add") {
-              dispatch(addBook({
-                id: cnt,
-                // name: name.current,
-                // price: price.current,
-                // category: category.current,
-                // description: description.current
-                name: name,
-                price: price,
-                category: category,
-                description: description,
-              }));
-            } else if (props.type === "Edit") {
-              dispatch(editBook({
-                id: props.data.id,
-                name: name,
-                price: price,
-                category: category,
-                description: description,
-              }));
-            }
+  const clearInput = (): void => {
+    setName("");
+    setPrice(0);
+    setCategory("");
+    setDescription("");
+  };
 
-            // dispatch(addBook({ id: cnt, name: name.current }));
-            // props.buttonAction;
-            setCnt(cnt + 1);
-          }
-          }>Add
-          </button>
-          <button onClick={(e) => {
-            props.handleClose(false);
-            e.preventDefault();
-          }}>Cancel
-          </button>
+  return (
+    <div className={"form-container"}
+         style={props.visible ? { display: "block" } : { display: "none" }}>
+      <dialog open={props.visible} onClick={(e) => e.stopPropagation()}>
+        <h1 className={"dialog-title"}>{props.type} Book</h1>
+        <form className={"form"}>
+          <div className={"dialog-row"}>
+            <label>Name
+              <input
+                value={name}
+                type={"text"}
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+                required
+              />
+            </label>
+            <label>Price
+              <input
+                type={"number"}
+                value={price}
+                onChange={(e) => {
+                  setPrice(e.target.valueAsNumber);
+                }}
+              />
+            </label>
+          </div>
+          <div className={"dialog-row"}>
+            <label>Category
+              <input
+                value={category}
+                type={"text"}
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                }}
+                required
+              />
+            </label>
+          </div>
+          <div className={"dialog-row"}>
+            <label>Description
+              <textarea
+                value={description}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+                required
+              />
+            </label>
+          </div>
+          <div className={"button-container"}>
+            <button onClick={(e) => {
+              props.handleClose(false);
+              props.type === "Add" && clearInput();
+              e.preventDefault();
+            }}>Cancel
+            </button>
+            <button className={"primary-btn"} type="button" disabled={submitDisabled()} onClick={() => {
+              if (props.type === "Add") {
+                dispatch(addBook({
+                  id: id,
+                  name: name,
+                  price: price,
+                  category: category,
+                  description: description,
+                }));
+                clearInput();
+              } else if (props.type === "Edit") {
+                dispatch(editBook({
+                  id: props.data ? props.data.id : 0,
+                  name: name,
+                  price: price,
+                  category: category,
+                  description: description,
+                }));
+              }
+              setId(id + 1);
+              props.handleClose(false);
+            }
+            }>{props.type === "Add" ? props.type : "Save"}
+            </button>
+          </div>
         </form>
       </dialog>
+      <div className={"dialog-background"} onClick={() => props.handleClose(false)}></div>
     </div>
   );
 };

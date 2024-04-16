@@ -1,14 +1,21 @@
-import { useRef, useState } from "react";
 import { useAppDispatch } from "../store/store";
-import { useDispatch } from "react-redux";
 import { deleteBook } from "../store/features/bookSlice";
+import "./Delete.css";
 
-const Delete = ({ bookID }: { bookID: number }) => {
+interface Props {
+  bookID: number;
+  handleClose: Function;
+}
+
+const Delete = (props: Props) => {
+  const { bookID, handleClose } = props;
 
   const dispatch = useAppDispatch();
   return (
-    <button onClick={() => {
+    <button className={"negative-btn"} onClick={(e) => {
       dispatch(deleteBook({ id: bookID }));
+      handleClose(false);
+      e.stopPropagation();
     }}>Delete</button>
   );
 };
